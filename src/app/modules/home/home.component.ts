@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {
-  DashboardReportInterface,
-  DashboardSummaryInterface,
   TaskInterface,
 } from './home.types';
 import { HomeService } from './home.service';
 
-import { AppTableInterface } from '@app/components/table';
+import { AppTableInterface, AppTablePaginatorInterface } from '@app/components/table';
 
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { forkJoin } from 'rxjs';
@@ -45,7 +43,7 @@ export class HomeComponent implements OnInit {
     ],
     paginator: true,
     paginatorConfig: {
-      defaultPageSize: 20,
+      defaultPageSize: 5,
     },
     showMore: true,
   };
@@ -71,8 +69,12 @@ export class HomeComponent implements OnInit {
         },
       },
       dismissible: false,
-    }
+    };
   };
+
+  public totalItems = 0;
+
+  public paginator: AppTablePaginatorInterface = { pageNumber: 1, pageSize: 5 };
 
   constructor(
     private readonly authService: AuthService,
@@ -84,14 +86,15 @@ export class HomeComponent implements OnInit {
     this.authService.loggedUser.subscribe((user) => {
       if (user) {
         this.user = { ...user, id: +user.id };
-        this.getTasks();
+        this.getTasks(this.paginator);
       }
     });
   }
 
-  getTasks(): void {
-    void this.homeService.getTasks().subscribe((tasks) => {
-      this.tasks = tasks;
+  getTasks(paginator: AppTablePaginatorInterface): void {
+    void this.homeService.getTasks(paginator).subscribe((tasks) => {
+      this.tasks = tasks.data;
+      this.totalItems = tasks.totalItems;
     });
   }
 
@@ -107,16 +110,18 @@ export class HomeComponent implements OnInit {
       if (state === 'cancelled') return;
       const obsv = event.map((taskId) => this.homeService.deleteTask(taskId));
       forkJoin(obsv).subscribe(() => {
-        this.getTasks();
+        this.getTasks(this.paginator);
         this.selection.clear();
       });
-    })
+    });
   }
 
   done(event: number[]): void {
-    const obsv = event.map((taskId) => this.homeService.updateStatusTask(taskId));
+    const obsv = event.map((taskId) =>
+      this.homeService.updateStatusTask(taskId)
+    );
     forkJoin(obsv).subscribe(() => {
-      this.getTasks();
+      this.getTasks(this.paginator);
       this.selection.clear();
     });
   }
@@ -124,21 +129,30 @@ export class HomeComponent implements OnInit {
   open(data?: TaskInterface): void {
     const dialog = this.matDialog.open(TaskDialogComponent, {
       panelClass: 'app-confirmation-dialog-panel',
-      data
+      data,
     });
 
     dialog.afterClosed().subscribe((task: TaskInterface) => {
       if (!task) return;
 
       if (task.id) {
-        void this.homeService.updateTask(task.id, { ...task, userId: this.user.id }).subscribe(() => {
-          this.getTasks();
-        });
+        void this.homeService
+          .updateTask(task.id, { ...task, userId: this.user.id })
+          .subscribe(() => {
+            this.getTasks(this.paginator);
+          });
       } else {
-        void this.homeService.createTask({ ...task, userId: this.user.id }).subscribe(() => {
-          this.getTasks();
-        });
+        void this.homeService
+          .createTask({ ...task, userId: this.user.id })
+          .subscribe(() => {
+            this.getTasks(this.paginator);
+          });
       }
     });
+  }
+
+  paginated(event: AppTablePaginatorInterface): void {
+    this.paginator = event;
+    this.getTasks(this.paginator);
   }
 }

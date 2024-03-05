@@ -38,7 +38,7 @@ export interface AppTableSortConfigInterface {
 
 export interface AppTablePaginatorInterface {
   pageNumber: number;
-  perPage: number;
+  pageSize: number;
 }
 
 export interface AppTableSortInterface {

@@ -14,6 +14,8 @@ export class AppTableComponent implements OnInit {
   @Input() config: AppTableInterface;
   @Input() data: any[] & { rows: any[]; count: number };
   @Input() selection = new SelectionModel<number>(true, []);
+  @Input() totalItems!: number;
+
   @Output() selected: EventEmitter<any> = new EventEmitter();
   @Output() filtered: EventEmitter<any> = new EventEmitter();
   @Output() sortabled: EventEmitter<any> = new EventEmitter();
@@ -98,7 +100,7 @@ export class AppTableComponent implements OnInit {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
 
-    this.applyPagination();
+    this.paginated.emit({ pageNumber: this.pageIndex + 1, pageSize: this.pageSize });
   }
 
   applyPagination(): void {
@@ -111,7 +113,8 @@ export class AppTableComponent implements OnInit {
     } else {
       this.dataSource = this.data.rows;
       this.dataSourceLength = this.data.count;
-      this.paginated.emit({ pageNumber: this.pageIndex + 1, perPage: this.pageSize });
+      console.log({ pageNumber: this.pageIndex + 1, pageSize: this.pageSize });
+      this.paginated.emit({ pageNumber: this.pageIndex + 1, pageSize: this.pageSize });
     }
   }
 

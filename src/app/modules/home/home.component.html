@@ -2,7 +2,8 @@
   <div>
     <div class="mt-6">
       <app-table (action)="open($event)" (remove)="remove($event)" (add)="open()" (done)="done($event)"
-        class="w-full" [config]="config" [data]="tasks" [selection]="selection">
+        (paginated)="paginated($event)" class="w-full" [config]="config" [data]="tasks" [selection]="selection"
+        [totalItems]="totalItems">
       </app-table>
     </div>
   </div>
