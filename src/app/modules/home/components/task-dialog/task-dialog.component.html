@@ -1,0 +1,50 @@
+<div class="relative flex flex-col w-full h-full bg-default">
+  <ng-container>
+    <div class="absolute top-0 right-0 pt-4 pr-4">
+      <button mat-icon-button [matDialogClose]="undefined">
+        <mat-icon class="text-secondary" [svgIcon]="'mat_outline:close'"></mat-icon>
+      </button>
+    </div>
+  </ng-container>
+
+  <div class="w-full flex flex-col sm:flex-row flex-auto items-center sm:items-start p-8 pb-6 sm:pb-8">
+    <ng-container>
+      <div class="w-full mt-4 sm:mt-0 sm:pr-8 space-y-1 text-center sm:text-left">
+        <ng-container>
+          <div class="text-lg leading-6 font-semibold" [innerHTML]="data ? 'Alterar tarefa' : 'Criar tarefa'"></div>
+        </ng-container>
+
+        <form class="mt-8" [formGroup]="taskForm">
+          <mat-form-field class="w-full mb-2">
+            <mat-label class="font-bold">Nome da tarefa</mat-label>
+            <input autocomplete="off" id="name" placeholder="Ir ao mercado..." formControlName="name" matInput>
+            <mat-error *ngIf="taskForm.get('name').hasError('required')">
+              O nome da tarefa é obrigatório
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="w-full">
+            <mat-label class="font-bold">Descrição da tarefa</mat-label>
+            <input autocomplete="off" id="description" placeholder="Comprar maçãs" formControlName="description" matInput>
+          </mat-form-field>
+        </form>
+      </div>
+    </ng-container>
+  </div>
+
+  <ng-container>
+    <div class="flex items-center justify-center sm:justify-end px-6 py-4 space-x-3">
+      <ng-container>
+        <button mat-flat-button (click)="dialogRef.close()">
+          Cancelar
+        </button>
+      </ng-container>
+
+      <ng-container>
+        <button mat-flat-button color="primary" (click)="dialogRef.close(taskForm.value)">
+          Confirmar
+        </button>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>

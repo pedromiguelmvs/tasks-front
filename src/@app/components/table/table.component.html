@@ -1,0 +1,96 @@
+<div class="bg-card rounded-md border dark:border-slate-800">
+  <div class="p-3 px-4 border-b">
+    <div class="flex flex-row justify-between items-center">
+      <h2 class="font-bold text-lg py-1">{{ config.title }}</h2>
+      <button mat-button color="primary" *ngIf="!selection.hasValue()" (click)="add.emit()">
+        <mat-icon>add</mat-icon>
+        <span class="ml-1 font-bold">Adicionar tarefa</span>
+      </button>
+      <div *ngIf="selection.hasValue()">
+        <button mat-button color="primary" (click)="done.emit(selection.selected)">
+          <mat-icon [svgIcon]="'mat_outline:done'"></mat-icon>
+          <span class="ml-1">Concluir selecionados</span>
+        </button>
+        <button mat-button color="warn" (click)="remove.emit(selection.selected)">
+          <mat-icon [svgIcon]="'mat_outline:delete'"></mat-icon>
+          <span class="ml-1">Remover selecionados</span>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="config.searchable">
+      <mat-form-field class="flex -mb-5 w-52 pt-2">
+        <mat-icon [svgIcon]="'mat_outline:search'" matPrefix></mat-icon>
+        <input matInput type="text" placeholder="Pesquisar..." [(ngModel)]="filterValue"
+          (ngModelChange)="applyFilter()" />
+      </mat-form-field>
+    </div>
+  </div>
+  <table aria-describedby="tabela" matSort (matSortChange)="sortData($event)"
+    [ngClass]="config.paginator && 'table-paginator'" class="table-auto w-full">
+    <thead class="bg-transparent">
+      <tr>
+        <th *ngIf="config.selection" class="w-4	text-center flex items-center pl-2">
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()" color="primary"
+            style="display: none !important;"></mat-checkbox>
+        </th>
+        <ng-container *ngIf="config.sortable">
+          <th class="border text-low-light py-2.5 px-4 text-left" [mat-sort-header]="item.key"
+            *ngFor="let item of config.headers; let i = index">
+            {{ item.name }}
+          </th>
+        </ng-container>
+        <ng-container *ngIf="!config.sortable">
+          <th class="border text-low-light py-2.5 px-4 text-left" *ngFor="let item of config.headers">
+            {{ item.name }}
+          </th>
+        </ng-container>
+        <th class="border text-low-light text-left px-4 w-4" *ngIf="config.actions">
+          Ações
+        </th>
+      </tr>
+    </thead>
+    <tbody class="bg-transparent">
+      <tr (click)="action.emit(value)" class="hover:bg-default" *ngFor="let value of dataSource">
+        <td class="border text-center pl-2 w-4" *ngIf="config.selection">
+          <div class="flex items-center">
+            <mat-checkbox (click)="$event.stopPropagation()" [checked]="selection.isSelected(value.id)" (change)="
+              selection.toggle(value.id); selected.emit(selection.selected)
+            " color="primary"></mat-checkbox>
+          </div>
+        </td>
+        <td *ngFor="let item of config.content" [class.py-4]="item?.type !== 'timestamp'"
+          [class.py-2]="item?.type === 'timestamp'" [class.line-through]="value?.done"
+          [style.color]="value?.done && '#737373'" class="slate-950 border px-4 text-md text-left">
+          <div class="flex flex-col" *ngIf="item.type === 'timestamp'">
+            {{ value | tablekeyvalue:item.key:item.type | date: 'dd/MM/yyyy HH:mm:ss':'UTC' }}
+          </div>
+          <ng-container *ngIf="item.type === 'field' || item.type === 'length'">
+            {{ value | tablekeyvalue:item.key:item.type }}
+          </ng-container>
+        </td>
+        <td class="border text-center w-4" *ngIf="config.actions">
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Mais informações">
+            <mat-icon [svgIcon]="'mat_solid:more_vert'"></mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="actionListener.emit({ action: 'form', id: value.id })">
+              <mat-icon [svgIcon]="'mat_outline:edit'"></mat-icon>
+              <span>Editar</span>
+            </button>
+            <button mat-menu-item (click)="
+                actionListener.emit({ action: 'delete', id: value.id })
+              ">
+              <mat-icon [svgIcon]="'mat_outline:delete'"></mat-icon>
+              <span>Remover</span>
+            </button>
+          </mat-menu>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="config.paginator" class="flex justify-end border-t">
+    <mat-paginator class="bg-transparent" [length]="dataSourceLength" [pageSize]="defaultPageSize"
+      [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)"></mat-paginator>
+  </div>
+</div>

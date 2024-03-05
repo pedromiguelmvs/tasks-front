@@ -1,0 +1,65 @@
+<ng-container *ngIf="show">
+  <div
+    [@fadeIn]
+    [@fadeOut]
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+    class="flex flex-col items-center max-w-xl mb-4 text-gray-500 bg-white border rounded-lg shadow dark:text-gray-400 dark:bg-default float-right"
+    role="alert"
+  >
+    <mat-progress-bar
+      [value]="progressValue"
+      mode="determinate"
+      color="primary"
+      class="w-full rounded-lg"
+    ></mat-progress-bar>
+    <div class="flex p-4 items-center">
+      <div
+        [ngClass]="{
+          'text-green-500 bg-green-100 dark:bg-green-800 dark:text-green-200':
+            color === 'primary',
+          'text-red-500 bg-red-100 dark:bg-red-800 dark:text-red-200':
+            color === 'danger'
+        }"
+        class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg"
+      >
+        <mat-icon
+          [ngClass]="{
+            'text-green-500 bg-green-100 dark:bg-green-800 dark:text-green-200':
+              color === 'primary',
+            'text-red-500 bg-red-100 dark:bg-red-800 dark:text-red-200':
+              color === 'danger'
+          }"
+          [svgIcon]="icon"
+        ></mat-icon>
+      </div>
+
+      <div class="mx-4 text-sm font-normal" *ngIf="!message.description">
+        {{ message.title }}
+      </div>
+
+      <div class="mx-4 text-sm font-normal" *ngIf="message.description">
+        <span
+          class="mb-1 text-sm font-semibold text-gray-900 dark:text-white mb-2"
+          >{{ message.title }}</span
+        >
+        <div
+          class="text-sm font-normal"
+          *ngFor="let description of message.description"
+        >
+          {{ description }}
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-card dark:hover:bg-gray-700"
+        (click)="hide()"
+        aria-label="Fechar"
+      >
+        <span class="sr-only">Fechar</span>
+        <mat-icon [svgIcon]="'mat_outline:close'"></mat-icon>
+      </button>
+    </div>
+  </div>
+</ng-container>

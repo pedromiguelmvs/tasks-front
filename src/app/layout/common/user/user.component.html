@@ -1,0 +1,17 @@
+<button mat-button class="py-8" [matMenuTriggerFor]="userActions">
+  <div class="flex flex-row items-center">
+    <button>
+      <img class="inline-block h-10 w-10 rounded-full" src="https://soccerpointeclaire.com/wp-content/uploads/2021/06/default-profile-pic-e1513291410505.jpg" alt="">
+    </button>
+    <span class="text-left ml-4 hidden md:block">
+      <h2 class="font-bold text-md">{{ user.username }}</h2>
+    </span>
+  </div>
+</button>
+
+<mat-menu class="mt-1" #userActions="matMenu">
+  <button mat-menu-item (click)="signOut()">
+    <mat-icon [svgIcon]="'mat_outline:logout'"></mat-icon>
+    <span class="font-semibold">Sair</span>
+  </button>
+</mat-menu>

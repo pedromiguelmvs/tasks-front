@@ -1,0 +1,9 @@
+<div class="w-full p-6">
+  <div>
+    <div class="mt-6">
+      <app-table (action)="open($event)" (remove)="remove($event)" (add)="open()" (done)="done($event)"
+        class="w-full" [config]="config" [data]="tasks" [selection]="selection">
+      </app-table>
+    </div>
+  </div>
+</div>

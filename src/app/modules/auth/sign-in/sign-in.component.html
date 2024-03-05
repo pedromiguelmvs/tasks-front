@@ -1,0 +1,36 @@
+<div class="flex flex-col sm:flex-row items-center md:items-start justify-center mt-60 flex-auto min-w-0">
+  <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
+    <div class="w-48">
+      <img ngSrc="assets/images/logo-dark.svg" height="41" width="265">
+    </div>
+
+    <div class="mt-8 text-lg font-bold tracking-tight dark:text-low-pure leading-tight">Acesse sua conta</div>
+
+    <form class="mt-8" [formGroup]="signInForm">
+      <mat-form-field class="w-full mb-2">
+        <mat-label class="font-bold">Nome de usuário</mat-label>
+        <input autocomplete="off" id="username" placeholder="John Doe" formControlName="username" matInput>
+        <mat-error *ngIf="signInForm.get('username').hasError('required')">
+          O nome de usuário é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label class="font-bold">Senha</mat-label>
+        <input autocomplete="off" id="password" placeholder="Senha123@" formControlName="password" matInput type="password" #passwordField>
+        <mat-error>A senha é obrigatória.</mat-error>
+      </mat-form-field>
+
+      <div class="inline-flex items-center justify-end w-full mt-1.5">
+        <a class="text-primary-800 underline font-bold" [routerLink]="['/registrar']">Ainda não tenho conta
+        </a>
+      </div>
+
+      <button class="w-full mt-6" mat-flat-button color="primary" [disabled]="signInForm.invalid" (click)="signIn()">
+        <span *ngIf="!signInForm.disabled">Entrar</span>
+        <mat-progress-spinner *ngIf="signInForm.disabled" [diameter]="24"
+          [mode]="'indeterminate'"></mat-progress-spinner>
+      </button>
+    </form>
+  </div>
+</div>

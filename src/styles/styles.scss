@@ -1,0 +1,23 @@
+.landing-page-card {
+  display: flex;
+  position: relative;
+  left: 0px;
+  height: 300px;
+  width: 700px;
+  transition: 0.4s ease-out;
+}
+
+.landing-page-card:not(:first-child) {
+  margin-left: -100px;
+}
+
+.landing-page-card:hover {
+  transform: translateX(-40px) translateY(-40px);
+  transition: 0.4s ease-out;
+}
+
+.landing-page-card:hover~.landing-page-card {
+  position: relative;
+  left: 50px;
+  transition: 0.4s ease-out;
+}
