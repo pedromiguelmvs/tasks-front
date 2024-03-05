@@ -1,27 +1,55 @@
-# NewFront
+<p align="center">
+   <img src="https://i.imgur.com/wA3rXSd.png" width="200"/>
+</p>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.3.
+# Tarefas
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+[![Author](https://img.shields.io/badge/author-PedroMiguel-D54F44?style=flat-square)](https://github.com/pedromiguelmvs)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+> CRUD de tarefas feito com Angular, Tailwind, Angular Material, SCSS e mais.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+<br />
+<p align="center"><img src="https://i.imgur.com/h6fT2YJ.png"/></p>
 
-## Running end-to-end tests
+---
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+# :pushpin: Indice
 
-## Further help
+* [Considerações Iniciais](#paintbrush-considerações-iniciais)
+* [Features](#rocket-features)
+* [Getting Started](#runner-rodando-o-projeto)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# :paintbrush: Considerações iniciais
+
+Antes de começar, quero esclarecer que, por motivos de organização, este projeto foi dividido em duas partes: __frontend__ e __backend__. O backend pode ser acessado [clicando aqui](https://github.com/pedromiguelmvs/tasks).
+
+# :rocket: Features
+
+Projeto feito com Angular, Tailwind, Angular Material, SCSS e mais.
+
+* 👤 Crie novas tarafes através de uma listagem que atualiza em tempo real.
+* 🎟️ Tenha o controle de tarefas já concluídas usando o marcador de tasks!
+
+# :runner: Rodando o projeto
+
+Primeiro, você deve clonar o repositório do projeto:
+
+```git clone https://github.com/pedromiguelmvs/tasks-front```
+
+Após isso, entre na pasta do projeto:
+
+```cd tasks-front```
+
+Feito isso, instale as dependências do projeto e a interface estará pronta para ser executada.
+
+```npm install```
+
+
+Pronto! Rode o projeto:
+
+```npm start```
